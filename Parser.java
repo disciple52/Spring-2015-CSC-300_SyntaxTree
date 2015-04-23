@@ -1,11 +1,14 @@
 public class Parser 
 {
 	private String theStmt;
-	private int pos;
+	private int pos; //where am I in the theStmt string
+	private static final String legalVariableCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "; 
+	private static final String legalOpCharacters = "+-*/% ";
 	
 	public Parser(String theStmt)
 	{
 		this.theStmt = theStmt;
+		
 		this.pos = 0;
 	}
 	
@@ -14,83 +17,85 @@ public class Parser
 		this.parse_stmt();
 	}
 	
-	private void parse_stmt()
+	private String getNextToken(char c)
 	{
-		theStmt = theStmt.replaceAll("\\s","");
-		System.out.println(theStmt);
-		//Print each time it reads something like:
-		// Read VarName = a;
-		String varName = "";
-		for (int i = this.pos; i < theStmt.indexOf("="); i++)
+		while(pos < this.theStmt.length())
 		{
-			varName = varName + theStmt.charAt(i);
+			if(this.theStmt.charAt(pos) == c)
+			{
+				pos++;
+				break;
+			}
 			pos++;
 		}
-		pos++; 
-		System.out.println("var Name: " + varName);
+		return "" + c;
+	}
+	
+	private String getNextToken(String legalChars)
+	{
+		String token = "";
+		while(pos < this.theStmt.length())
+		{
+			if(legalChars.indexOf(this.theStmt.charAt(pos)) != -1)
+			{
+				token += this.theStmt.charAt(pos);
+			}
+			else
+			{
+				//this means we are at the end of the token
+				//We are always trimming leading and trailing spaces
+				//move forward one
+				break;
+			}
+			pos++;
+		}
+		return token.trim();
+	}
+	
+	private void parse_stmt()
+	{
+		//Print each time it reads something like:
+		// Read: VarName = a
+		String varName = this.getNextToken(Parser.legalVariableCharacters);
+		System.out.println("Read VarName: " + varName);
 		
-		// REading: math-expr
-		String mathExpr = theStmt.substring(pos);
-		System.out.println("Reading Math Expr: " + mathExpr);
-		parse_math_expr();		
-		//read var name		
-		//read a math_expr
+		//burn past the =
+		this.getNextToken('=');
+		
+		// Reading: Math-Expr
+		this.parse_math_expr();
+		
+		//burn past the ;
+		this.getNextToken(';');
 	}
 	
 	private void parse_math_expr()
 	{
-		String reading = "";
-		if(theStmt.indexOf("(") == pos)
+		String varName = this.getNextToken(Parser.legalVariableCharacters);
+		if(varName.length() == 0)
 		{
-			for(int i = pos; i <= theStmt.indexOf(")"); i++)
-			{
-				reading = reading + theStmt.charAt(i);
-				pos++;
-			}
-			System.out.println("Reading Left: " + reading);
-			parse_math(reading);
-			System.out.println("Read Op: " + theStmt.charAt(pos));
-			pos++;
-			String parseRight = theStmt.substring(pos,theStmt.length()-1);
-			System.out.println("Reading Right: " + parseRight);
+			//we know that we are at the beginning of a paren-math-expr
+			this.getNextToken('(');
+			this.parse_math_expr();
+			this.getNextToken(')');
 		}
 		else
 		{
-			System.out.println("Reading Left: " + theStmt.charAt(pos));
-			pos++;
-			System.out.println("Op: " + theStmt.charAt(pos));
-			pos++;
-			System.out.println("Reading Right: " + theStmt.substring(pos,theStmt.length()-1));
-			parse_math(theStmt.substring(pos,theStmt.length()-1));
+			System.out.println("Read VarName: " + varName);
 		}
-	}
-	
-	private void parse_math(String toParse)
-	{
-		int currPos = 0;
-		String toLeft = "";
-		for(int i = 1; i < toParse.indexOf(")"); i++)
+		String op = this.getNextToken(Parser.legalOpCharacters);
+		System.out.println("Read Op: " + op);
+		varName = this.getNextToken(Parser.legalVariableCharacters);
+		if(varName.length() == 0)
 		{
-			toLeft = toLeft + toParse.charAt(i);
-		}
-		if(toLeft.charAt(currPos) != '(')
-		{
-			System.out.println("Reading Left: " + toLeft.charAt(currPos));
-			currPos++;
-			System.out.println("Read Op: " + toLeft.charAt(currPos));
-			currPos++;
-			if(toLeft.charAt(currPos) != '(')
-			{
-				System.out.println("Reading Right: " + toLeft.substring(currPos));
-			}
-			else
-			{
-				parse_math(toLeft.substring(currPos));
-			}
+			//we know that we are at the beginning of a paren-math-expr
+			this.getNextToken('(');
+			this.parse_math_expr();
+			this.getNextToken(')');
 		}
 		else
 		{
-			parse_math(toLeft.substring(currPos));
-		}		
+			System.out.println("Read VarName: " + varName);
+		}
 	}
 }
