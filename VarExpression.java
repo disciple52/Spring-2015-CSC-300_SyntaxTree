@@ -1,4 +1,3 @@
-
 public class VarExpression extends Expression
 {
 	private String varName;

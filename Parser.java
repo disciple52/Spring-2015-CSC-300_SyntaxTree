@@ -69,6 +69,9 @@ public class Parser
 		//burn past the ;
 		this.getNextToken(';');
 		System.out.println("Burned ;");
+		
+		//Build VarDefStatement here!!!!! 
+		
 	}
 	
 	private void parse_math_expr()
