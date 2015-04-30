@@ -66,7 +66,7 @@ public class Parser
 		System.out.println("Burned =");
 		
 		// Reading: Math-Expr
-		this.parse_math_expr();
+		MathExpression FirstMathExp = this.parse_math_expr();
 		
 		
 		//burn past the ;
@@ -78,11 +78,12 @@ public class Parser
 		System.out.println(FirstVarDefStmt);
 	}
 	
-	private void parse_math_expr()
+	private MathExpression parse_math_expr()
 	{
 		String varName = this.getNextToken(Parser.legalVariableCharacters);
-		Expression rightOperand;
-		Expression leftOperand;
+		Expression rightOperand = null;
+		Expression leftOperand = null;
+		MathExpression FirstMathExp; 
 		
 		if(varName.length() == 0)
 		{
@@ -97,6 +98,7 @@ public class Parser
 		{
 			System.out.println("Read VarName: " + varName);
 			leftOperand = new VarExpression(varName);
+			
 		}
 		String op = this.getNextToken(Parser.legalOpCharacters);
 		System.out.println("Read Op: " + op);
@@ -115,7 +117,8 @@ public class Parser
 		{
 			System.out.println("Read VarName: " + varName);
 			rightOperand = new VarExpression(varName);
+			
 		}
-		MathExpression FirstMathExp = new MathExpression(leftOperand, rightOperand, Op);
+		return new MathExpression(leftOperand, rightOperand, Op);
 	}
 }
