@@ -83,7 +83,6 @@ public class Parser
 		String varName = this.getNextToken(Parser.legalVariableCharacters);
 		Expression rightOperand = null;
 		Expression leftOperand = null;
-		MathExpression FirstMathExp; 
 		
 		if(varName.length() == 0)
 		{
@@ -116,8 +115,7 @@ public class Parser
 		else
 		{
 			System.out.println("Read VarName: " + varName);
-			rightOperand = new VarExpression(varName);
-			
+			rightOperand = new VarExpression(varName);	
 		}
 		return new MathExpression(leftOperand, rightOperand, Op);
 	}
