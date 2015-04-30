@@ -6,4 +6,9 @@ public class VarExpression extends Expression
 	{
 		this.varName = varName;
 	}
+	
+	public String toString()
+	{
+		return varName;
+	}
 }

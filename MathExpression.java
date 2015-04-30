@@ -10,4 +10,21 @@ public class MathExpression extends Expression
 		this.rightOperand = rightOperand;
 		this.operator = operator;
 	}
+	
+	public String toString()
+	{
+		if(leftOperand instanceof MathExpression && rightOperand instanceof MathExpression)
+		{
+			return "(" + leftOperand.toString() + ")" + operator.toString() + "(" + rightOperand.toString() + ")";
+		}
+		if(leftOperand instanceof MathExpression)
+		{
+			return "(" + leftOperand.toString() + ")" + operator.toString() + rightOperand.toString();
+		}
+		if(rightOperand instanceof MathExpression)
+		{
+			return leftOperand.toString() + operator.toString() + "(" + rightOperand.toString() + ")";
+		}
+		return leftOperand.toString() + operator.toString()+ rightOperand.toString();
+	}
 }

@@ -1,4 +1,4 @@
-public class VarDefStatement 
+public class VarDefStatement //invisible part extends Object //Object is the parent of anything with "invisible ink"
 {
 	private VarExpression theVarExpr;
 	private MathExpression theMathExpr;
@@ -7,5 +7,16 @@ public class VarDefStatement
 	{
 		this.theVarExpr = theVarExpr;
 		this.theMathExpr = theMathExpr;
+	}
+	
+	public String toString()
+	{
+		//return "hello world " + super.toString();
+		//write this such that it rebuilds the String version
+		//of the original statement.  You MAY NOT just use the
+		//store string variable theStmt.
+		
+		
+		return theVarExpr.toString() + "=" + theMathExpr.toString() + ";";
 	}
 }

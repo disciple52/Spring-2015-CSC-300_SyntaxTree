@@ -7,6 +7,8 @@ public class Driver
 		Parser p2 = new Parser("    a = b - c;");
 		Parser p3 = new Parser("a = ((a+k) * (a + (b/n))) - c;");
 		
-		p.parse();
+		p3.parse();
+		VarDefStatement vds = p3.getTheSyntaxTree();
+		System.out.println(vds);
 	}
 }
