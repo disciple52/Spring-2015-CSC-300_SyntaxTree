@@ -18,7 +18,9 @@ public class Driver
 		 * somewhere so we can look it up later when we doMath. You
 		 * might choose to create a VariableEnv object that 
 		 * holds an array of Variable objects, where a Variable object
-		 * holds a variable name and an integer value. The VariableEnv 
+		 * holds a variable name and an integer value. 
+		 * 
+		 * The VariableEnv 
 		 * should allow us to add variables to it, and retrieve the 
 		 * value given a variable name. Then finish doMath to support 
 		 * variable. Note that your parser must now be able to parse

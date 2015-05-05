@@ -7,4 +7,6 @@ public class VariableEnv
 	{
 		this.theVariableEnvironment = theVariableEnvironment;
 	}
+	
+	//should allow us to add variables to it, and retrieve the value given a variable name
 }
