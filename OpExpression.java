@@ -9,6 +9,6 @@ public class OpExpression
 	
 	public String toString()
 	{
-		return "" + theOp;
+		return "" + this.theOp;
 	}
 }

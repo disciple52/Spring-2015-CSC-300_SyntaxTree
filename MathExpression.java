@@ -12,19 +12,24 @@ public class MathExpression extends Expression
 	}
 	
 	public String toString()
-	{
-		if(leftOperand instanceof MathExpression && rightOperand instanceof MathExpression)
+	{	String result = "";
+		if(this.leftOperand instanceof MathExpression)
 		{
-			return "(" + leftOperand.toString() + ")" + operator.toString() + "(" + rightOperand.toString() + ")";
+				result += "(" + this.leftOperand.toString() + ")";
 		}
-		if(leftOperand instanceof MathExpression)
+		else
 		{
-			return "(" + leftOperand.toString() + ")" + operator.toString() + rightOperand.toString();
+			result += this.leftOperand.toString();
 		}
-		if(rightOperand instanceof MathExpression)
+		result += this.operator.toString();
+		if(this.rightOperand instanceof MathExpression)
 		{
-			return leftOperand.toString() + operator.toString() + "(" + rightOperand.toString() + ")";
+				result += "(" + this.rightOperand.toString() + ")";
 		}
-		return leftOperand.toString() + operator.toString()+ rightOperand.toString();
+		else
+		{
+			result += this.rightOperand.toString();
+		}
+		return result;
 	}
 }

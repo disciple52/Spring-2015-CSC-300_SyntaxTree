@@ -12,11 +12,7 @@ public class VarDefStatement //invisible part extends Object //Object is the par
 	public String toString()
 	{
 		//return "hello world " + super.toString();
-		//write this such that it rebuilds the String version
-		//of the original statement.  You MAY NOT just use the
-		//store string variable theStmt.
-		
-		
-		return theVarExpr.toString() + "=" + theMathExpr.toString() + ";";
+		//write this such that it rebuilds the String version of the original statement.  You MAY NOT just use the store string variable theStmt.
+		return "Original Statement: " + this.theVarExpr.toString() + " = " + this.theMathExpr.toString() + ";";
 	}
 }
