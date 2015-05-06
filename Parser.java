@@ -75,19 +75,21 @@ public class Parser
 		this.getNextToken('=');
 		System.out.println("Burned =");
 		
+		
 		//if the next token is an int followed by a semicolon 
 		//store the variabl/int-value pair(so that we can call upon it when performing doMath)
-		String possibleVariable = Parser.legalLiteralCharacter;
-
-		if(isVariable(this.getNextToken(possibleVariable + ";")))
+		String varNum = this.getNextToken(Parser.legalLiteralCharacter);
+		varNum.trim();
+		
+		if(isVariable(varNum + ";"))
 		{
-			int variableNum;
-			variableNum = Integer.parseInt(possibleVariable);
+			int variableNum = Integer.parseInt(varNum);
+			System.out.println(variableNum);
 			Variable theVariable = new Variable(varName, variableNum);
 
-			variableList.add(theVariable);
-			//call parse_stmt again
-			//return this.parse_stmt();
+			//variableList.add(theVariable);
+			System.out.println("ABOUT TO PARSE_STMT AGAIN");
+			return new VarDefStatement(theVariable);
 		}
 
 
@@ -105,17 +107,21 @@ public class Parser
 
 	private boolean isVariable(String symbol)
 	{
-		//symbol = symbol.trim();
+		symbol = symbol.replace(';', ' ');
 		for(int i = 0; i < symbol.length(); i++)
 		{
+			System.out.println(Parser.legalLiteralCharacter.indexOf(symbol.charAt(i)));
 			if(Parser.legalLiteralCharacter.indexOf(symbol.charAt(i)) == -1 || symbol.charAt(i) == ' ')
 			{
+				System.out.println("Dumb asses");
 				return false;
 			}
 		}
+		symbol = symbol + ';';
 
 		if(symbol.endsWith(";"))
 		{
+			System.out.println("SUCCESSFUL VARIABLE");
 			return true;
 		}
 		return false;
