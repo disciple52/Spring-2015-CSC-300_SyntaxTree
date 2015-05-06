@@ -1,11 +1,13 @@
 
 public class Variable 
 {
-	private Variable theVariableStmt;
+	private String varName;
+	private int numValue;
 	
-	public Variable(Variable varName, int numValue)
+	public Variable(String varName, int numValue)
 	{
-		this.theVariableStmt = theVariableStmt;
+		this.varName = varName;
+		this.numValue = numValue;
 	}
 
 	//Variable Example: apple = 5;

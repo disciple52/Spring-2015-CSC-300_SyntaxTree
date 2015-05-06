@@ -23,7 +23,7 @@ public class MathExpression extends Expression
 		else if(this.leftOperand instanceof LitExpression)
 		{
 			theLeftNum = ((LitExpression) this.leftOperand).getTheLiteral();
-		}
+		} 
 		else
 		{
 			theLeftNum = ((MathExpression)this.leftOperand).doMath();
@@ -37,7 +37,7 @@ public class MathExpression extends Expression
 		else if(this.rightOperand instanceof LitExpression)
 		{
 			theRightNum = ((LitExpression) this.rightOperand).getTheLiteral();
-		}
+		} 
 		else
 		{
 			theRightNum = ((MathExpression)this.rightOperand).doMath();
@@ -46,7 +46,8 @@ public class MathExpression extends Expression
 	}
 	
 	public String toString()
-	{	String result = "";
+	{
+		String result = "";
 		if(this.leftOperand instanceof MathExpression)
 		{
 			result += "(" + this.leftOperand.toString() + ")";
@@ -55,9 +56,7 @@ public class MathExpression extends Expression
 		{
 			result += this.leftOperand.toString();
 		}
-		
 		result += this.operator.toString();
-		
 		if(this.rightOperand instanceof MathExpression)
 		{
 			result += "(" + this.rightOperand.toString() + ")";

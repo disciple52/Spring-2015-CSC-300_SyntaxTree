@@ -1,12 +1,20 @@
-
 public class VariableEnv 
 {
-	private VariableEnv theVariableEnvironment;
+	private Variable[] variableArray;
 	
-	public VariableEnv(Variable[] array)
+	
+	public VariableEnv(int count)
 	{
-		this.theVariableEnvironment = theVariableEnvironment;
+		this.variableArray = new Variable[count];
+	}
+
+	public Variable[] getVariableArray() {
+		return variableArray;
 	}
 	
+	public void add(Variable theVariable)
+	{
+		variableArray.add(theVariable);
+	}
 	//should allow us to add variables to it, and retrieve the value given a variable name
 }
