@@ -86,7 +86,7 @@ public class Parser
 		
 		
 		//if the next token is an int followed by a semicolon 
-		//store the variabl/int-value pair(so that we can call upon it when performing doMath)
+		//store the variable/int-value pair(so that we can call upon it when performing doMath)
 		if (theSyntaxTree == null)
 		{
 			String varNum = this.getNextToken(Parser.legalLiteralCharacter);
