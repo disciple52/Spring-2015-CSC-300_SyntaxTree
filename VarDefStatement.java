@@ -25,7 +25,7 @@ public class VarDefStatement //invisible part extends Object //Object is the par
 		}
 		else
 		{
-			return this.theVariable.toString() + ";";
+			return this.theVariable.toString();
 		}
 	}
 }

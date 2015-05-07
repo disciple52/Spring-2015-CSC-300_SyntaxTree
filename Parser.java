@@ -1,4 +1,3 @@
-import java.util.LinkedList;
 
 public class Parser 
 {
@@ -8,24 +7,34 @@ public class Parser
 	private static final String legalLiteralCharacter = "0123456789 ";
 	private static final String legalSymbolCharacters = Parser.legalVariableCharacters + Parser.legalLiteralCharacter;
 	private static final String legalOpCharacters = "+-*/% ";
-	private VarDefStatement theSytaxTree;
-	private LinkedList variableList;
+	private VarDefStatement theSyntaxTree;
+	private VarDefStatement secondSyntaxTree;
+	private Variable theVariable;
 
 	public Parser(String theStmt)
 	{
 		this.theStmt = theStmt;
-		this.theSytaxTree = null;
-		this.variableList = null;
+		this.theSyntaxTree = null;
+		this.secondSyntaxTree = null;
+		this.theVariable = null;
 		this.pos = 0;
 	}
 
-	public VarDefStatement getTheSytaxTree() {
-		return theSytaxTree;
+	public VarDefStatement getTheSyntaxTree() {
+		return theSyntaxTree;
+	}
+
+	public VarDefStatement getSecondSyntaxTree() {
+		return secondSyntaxTree;
 	}
 
 	void parse()
 	{
-		this.theSytaxTree = this.parse_stmt();
+		this.theSyntaxTree = this.parse_stmt();
+		if(this.theSyntaxTree != null && this.pos != this.theStmt.length())
+		{
+			this.secondSyntaxTree = this.parse_stmt();
+		}
 	}
 
 	private String getNextToken(char c)
@@ -78,25 +87,30 @@ public class Parser
 		
 		//if the next token is an int followed by a semicolon 
 		//store the variabl/int-value pair(so that we can call upon it when performing doMath)
-		String varNum = this.getNextToken(Parser.legalLiteralCharacter);
-		varNum.trim();
-		
-		if(isVariable(varNum + ";"))
+		if (theSyntaxTree == null)
 		{
-			int variableNum = Integer.parseInt(varNum);
-			System.out.println(variableNum);
-			Variable theVariable = new Variable(varName, variableNum);
+			String varNum = this.getNextToken(Parser.legalLiteralCharacter);
+			varNum.trim();
 
-			//variableList.add(theVariable);
-			System.out.println("ABOUT TO PARSE_STMT AGAIN");
-			return new VarDefStatement(theVariable);
+			if(isVariable(varNum))
+			{
+				int variableNum = Integer.parseInt(varNum);
+				System.out.println("Variable Number: " + variableNum);
+				theVariable = new Variable(varName, variableNum);
+
+				//System.out.println(variableEnv.getVariableArray().toString());
+				pos++;
+				pos++;
+				return new VarDefStatement(theVariable);
+			}
 		}
 
 
 
 		// Reading: Math-Expr
 		MathExpression theME = this.parse_math_expr();
-		System.out.println("The Right Side Math is: " + theME.doMath());
+		
+		System.out.println("The Right Side Math is: " + theME.doMath(theVariable));
 
 		//burn past the ;
 		this.getNextToken(';');
@@ -107,24 +121,22 @@ public class Parser
 
 	private boolean isVariable(String symbol)
 	{
-		symbol = symbol.replace(';', ' ');
+		symbol = symbol.trim();
 		for(int i = 0; i < symbol.length(); i++)
 		{
-			System.out.println(Parser.legalLiteralCharacter.indexOf(symbol.charAt(i)));
-			if(Parser.legalLiteralCharacter.indexOf(symbol.charAt(i)) == -1 || symbol.charAt(i) == ' ')
+			//System.out.println(Parser.legalLiteralCharacter.indexOf(symbol.charAt(i)));
+			if(Parser.legalLiteralCharacter.indexOf(symbol.charAt(i)) == -1 )
 			{
-				System.out.println("Dumb asses");
 				return false;
 			}
 		}
-		symbol = symbol + ';';
 
-		if(symbol.endsWith(";"))
+		/*if(symbol.charAt(symbol.length()-1) == ';')
 		{
 			System.out.println("SUCCESSFUL VARIABLE");
 			return true;
-		}
-		return false;
+		}*/
+		return true;
 	}
 
 	private boolean isVarExpression(String symbol)

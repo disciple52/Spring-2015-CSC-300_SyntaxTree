@@ -3,22 +3,25 @@ public class MathExpression extends Expression
 	private Expression leftOperand;
 	private Expression rightOperand;
 	private OpExpression operator;
+	private Variable theVar;
 	
 	public MathExpression(Expression leftOperand, Expression rightOperand, OpExpression operator)
 	{
 		this.leftOperand = leftOperand;
 		this.rightOperand = rightOperand;
 		this.operator = operator;
+		this.theVar = null;
 	}
 	
-	public int doMath()
+	public int doMath(Variable theVar)
 	{
+		this.theVar = theVar;
 		int theLeftNum;
 		int theRightNum;
 		if(this.leftOperand instanceof VarExpression)
 		{
 			//hw crap here
-			theLeftNum = -1;
+			theLeftNum = this.theVar.getNumValue();
 		}
 		else if(this.leftOperand instanceof LitExpression)
 		{
@@ -26,13 +29,13 @@ public class MathExpression extends Expression
 		} 
 		else
 		{
-			theLeftNum = ((MathExpression)this.leftOperand).doMath();
+			theLeftNum = ((MathExpression)this.leftOperand).doMath(theVar);
 		}
 		
 		if(this.rightOperand instanceof VarExpression)
 		{
 			//hw crap here
-			theRightNum = -1;
+			theRightNum = this.theVar.getNumValue();
 		}
 		else if(this.rightOperand instanceof LitExpression)
 		{
@@ -40,7 +43,7 @@ public class MathExpression extends Expression
 		} 
 		else
 		{
-			theRightNum = ((MathExpression)this.rightOperand).doMath();
+			theRightNum = ((MathExpression)this.rightOperand).doMath(theVar);
 		}
 		return this.operator.applyOperator(theLeftNum, theRightNum);
 	}
