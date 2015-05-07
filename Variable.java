@@ -17,11 +17,13 @@ public class Variable
 	//Variable Example: apple = 5;
 	//Variable = lit-value;
 
-	public String getVarName() {
+	public String getVarName() 
+	{
 		return varName;
 	}
 
-	public int getNumValue() {
+	public int getNumValue() 
+	{
 		return numValue;
 	}
 }

@@ -3,25 +3,44 @@ public class MathExpression extends Expression
 	private Expression leftOperand;
 	private Expression rightOperand;
 	private OpExpression operator;
-	private Variable theVar;
 	
 	public MathExpression(Expression leftOperand, Expression rightOperand, OpExpression operator)
 	{
 		this.leftOperand = leftOperand;
 		this.rightOperand = rightOperand;
 		this.operator = operator;
-		this.theVar = null;
 	}
 	
-	public int doMath(Variable theVar)
+	public Expression getLeftOperand() {
+		return leftOperand;
+	}
+
+	public Expression getRightOperand() {
+		return rightOperand;
+	}
+
+	public OpExpression getOperator() {
+		return operator;
+	}
+
+	public boolean isSpecial()
 	{
-		this.theVar = theVar;
+		return this.rightOperand == null;
+	}
+	
+	public int doMath(VariableEnv env)
+	{
+		if(this.rightOperand == null)
+		{
+			return ((LitExpression)this.leftOperand).getTheLiteral();
+		}
+		
 		int theLeftNum;
 		int theRightNum;
 		if(this.leftOperand instanceof VarExpression)
 		{
 			//hw crap here
-			theLeftNum = this.theVar.getNumValue();
+			theLeftNum = env.resolve(((VarExpression) this.leftOperand).getVarName());
 		}
 		else if(this.leftOperand instanceof LitExpression)
 		{
@@ -29,13 +48,13 @@ public class MathExpression extends Expression
 		} 
 		else
 		{
-			theLeftNum = ((MathExpression)this.leftOperand).doMath(theVar);
+			theLeftNum = ((MathExpression)this.leftOperand).doMath(env);
 		}
 		
 		if(this.rightOperand instanceof VarExpression)
 		{
 			//hw crap here
-			theRightNum = this.theVar.getNumValue();
+			theRightNum = env.resolve(((VarExpression) this.rightOperand).getVarName());
 		}
 		else if(this.rightOperand instanceof LitExpression)
 		{
@@ -43,7 +62,7 @@ public class MathExpression extends Expression
 		} 
 		else
 		{
-			theRightNum = ((MathExpression)this.rightOperand).doMath(theVar);
+			theRightNum = ((MathExpression)this.rightOperand).doMath(env);
 		}
 		return this.operator.applyOperator(theLeftNum, theRightNum);
 	}
